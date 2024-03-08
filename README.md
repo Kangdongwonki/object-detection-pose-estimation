@@ -33,3 +33,9 @@
 기존의 공개 데이터 셋 COCO 모델을 파인 튜닝하여 RGBD 카메라를 통해 객체 감지와 감지된 객체와의 관계식을 통해서 객체의 포즈 추정 수행
 
 <img width="426" alt="roscam" src="https://github.com/Kangdongwonki/object-detection-pose-estimation/assets/94422945/a9cece4b-7d25-4ade-9530-2c1992cfd3e7">
+
+
+# 회전 물체 바운딩 박스
+회전된 물체의 중심으로부터 바운딩 박스를 생성하는 cv의 기능 minAreaRect
+
+![roscamrotate](https://github.com/Kangdongwonki/object-detection-pose-estimation/assets/94422945/204ba266-0586-4374-ba25-6013179ae6aa)
