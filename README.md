@@ -25,8 +25,9 @@
 각각의 터미널을 열어서
 1. roscore 실행
 2. roslaunch realsense2_camera rs_camera.launch 실행
-3. rosrun [패키지 이름] [노드 실행 파일 이름]
+3. rosrun [패키지 이름] [노드 실행 파일 이름] *실행전 세팅해둔 conda 환경 활성화 conda activate [가상 환경 이름]
 4. rostopic echo [토픽 이름]
+회전된 상태의 객체 포즈 값을 구하려면 kros.py의 코드를 rotate.py의 코드로 교체
 
 
 # 설명
