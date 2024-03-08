@@ -83,7 +83,6 @@ class ObjectDetector:
             self.pose_pub_bottle.publish(poses_bottle)
             self.pose_pub_cup.publish(poses_cup)
             self.pose_pub_stop_sign.publish(poses_stop_sign)
-             # Visualize results
             self.visualize_results(self.color_image, np.concatenate((custom_r['rois'], coco_r['rois']), axis=0),
                                    np.concatenate((custom_r['masks'], coco_r['masks']), axis=2) if custom_r['masks'].size > 0 and coco_r['masks'].size > 0 else np.array([]),
                                    np.concatenate((custom_r['class_ids'], coco_r['class_ids']), axis=0),
@@ -124,7 +123,7 @@ class ObjectDetector:
 
         for i in range(N):
             class_id = class_ids[i]
-            # Filter for bottle (1), cup (2), and stop sign (12) classes
+            # bottle (1), cup (2), and stop sign (12) classes
             if class_id not in [1, 2, 12]:
                 continue
 
@@ -134,27 +133,24 @@ class ObjectDetector:
             center_x = int((x1 + x2) / 2.0)
             center_y = int((y1 + y2) / 2.0)
 
-            # Get depth value at the center of the object
+            # 깊이 정보를 이용하여 실제 세계 좌표 계산
             depth = self.depth_image[center_y, center_x] / 1000.0  # Assuming depth is in mm
-
-            # Calculate real world coordinates in meters
             real_x = (center_x - cx) * depth / fx
             real_y = (center_y - cy) * depth / fy
             real_z = depth
 
-            # Apply mask if available
             if mask.size > 0:
                 image = self.apply_mask(image, mask, color=np.random.rand(3))
 
-            # Draw bounding box
+            # 바운딩 박스 계산
             image = cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
     
-            # Define label based on class_id
+            # 객체 정보 표시
             label_map = {1: "Bottle", 2: "Cup", 12: "Stop Sign"}
             label = f"{label_map[class_id]}: {score:.2f}, X: {real_x:.2f}, Y: {real_y:.2f}, Z: {real_z:.2f}"
             image = cv2.putText(image, label, (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
-        # Display the image with detected objects
+        # 결과 이미지 표시
         cv2.imshow("Detected Objects", image)
         cv2.waitKey(3)
 
